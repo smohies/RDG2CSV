@@ -55,7 +55,8 @@ def main():
     rdg_json = json.dumps(rdg_dict, indent=2)
     export_json(rdg_json, json_filepath_out)
     rdg_group_list = rdg_dict['RDCMan']['file']['group']
-       
+    
+    # This loop can only parse through 2 nest levels. (ex. Main group > 1st Sub Group > 2nd Sub Group > Server)
     for group in rdg_group_list:
         group_name = group["properties"]["name"]
         if "server" in group.keys():
@@ -80,17 +81,17 @@ def main():
                             except:
                                 print(f"Error printing server data from subgroup {subgroup_name}")
                 if "group" in subgroup.keys():
-                    for subsubgroup in group["group"]:
+                    for subsubgroup in subgroup["group"]:
                         subsubgroup_name = subsubgroup["properties"]["name"]
                         if "server" in subsubgroup.keys():
                             for server in subsubgroup["server"]:
                                 try:
-                                    print(server["properties"], group_name, subsubgroup_name)
+                                    print(server["properties"], group_name, subgroup_name, subsubgroup_name)
                                 except:
                                     try:
                                         print(subsubgroup["properties"], subsubgroup_name)
                                     except:
-                                        print(f"Error printing server data from subgroup {subsubgroup_name}")
+                                        print(f"Error printing server data from subsubgroup {subsubgroup_name}")
 
 if __name__ == "__main__":
     main()
