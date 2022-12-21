@@ -54,7 +54,9 @@ def main():
     rdg_dict = xmltodict.parse(rdg_xml)
     rdg_json = json.dumps(rdg_dict, indent=2)
     export_json(rdg_json, json_filepath_out)
+    
     rdg_group_list = rdg_dict['RDCMan']['file']['group']
+    output_list = []
     
     # This loop can only parse through 2 nest levels. (ex. Main group > 1st Sub Group > 2nd Sub Group > Server)
     for group in rdg_group_list:
