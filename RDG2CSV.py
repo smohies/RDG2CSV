@@ -41,12 +41,24 @@ def export_json(json, filepath):
         
 def server_properties(server, group, group_name, subgroup_name=""):
     properties = {}
+    logon = {"userName": "", "domain": ""}
     try:
         properties = server["properties"]
     except:
-        properties = group["properties"]    
+        properties = group["properties"]
     properties["group"] = group_name
     properties["subgroup"] = subgroup_name
+    try:
+        logon["userName"] = server["logonCredentials"]["userName"]
+        logon["domain"] = server["logonCredentials"]["domain"]
+    except:
+        try:
+            logon["userName"] = group["logonCredentials"]["userName"]
+            logon["domain"] = group["logonCredentials"]["domain"]
+        except:
+            pass
+    properties["userName"] = logon["userName"]
+    properties["domain"] = logon["domain"]
     return properties
 
 def main():
