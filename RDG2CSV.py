@@ -38,6 +38,16 @@ def export_json(json, filepath):
     print(f"Exporting {filepath}")
     with open(filepath, "w") as json_file:
         json_file.write(json)
+        
+def server_properties(server, group, group_name, subgroup_name=""):
+    properties = {}
+    try:
+        properties = server["properties"]
+    except:
+        properties = group["properties"]    
+    properties["group"] = group_name
+    properties["subgroup"] = subgroup_name
+    return properties
 
 def main():
     
@@ -58,42 +68,21 @@ def main():
     rdg_group_list = rdg_dict['RDCMan']['file']['group']
     output_list = []
     
-    # This loop can only parse through 2 nest levels. (ex. Main group > 1st Sub Group > 2nd Sub Group > Server)
+    # This loop will only traverse for a single sub-group
     for group in rdg_group_list:
         group_name = group["properties"]["name"]
         if "server" in group.keys():
             for server in group["server"]:
-                try:
-                    print(server["properties"], group_name)
-                except:
-                    try:
-                        print(group["properties"], group_name)
-                    except:                       
-                        print(f"Error printing server data from group {group_name}")
+                output_list.append(server_properties(server, group, group_name))
         if "group" in group.keys():
             for subgroup in group["group"]:
                 subgroup_name = subgroup["properties"]["name"]
                 if "server" in subgroup.keys():
                     for server in subgroup["server"]:
-                        try:
-                            print(server["properties"], group_name, subgroup_name)
-                        except:
-                            try:
-                                print(subgroup["properties"], subgroup_name)
-                            except:
-                                print(f"Error printing server data from subgroup {subgroup_name}")
-                if "group" in subgroup.keys():
-                    for subsubgroup in subgroup["group"]:
-                        subsubgroup_name = subsubgroup["properties"]["name"]
-                        if "server" in subsubgroup.keys():
-                            for server in subsubgroup["server"]:
-                                try:
-                                    print(server["properties"], group_name, subgroup_name, subsubgroup_name)
-                                except:
-                                    try:
-                                        print(subsubgroup["properties"], subsubgroup_name)
-                                    except:
-                                        print(f"Error printing server data from subsubgroup {subsubgroup_name}")
-
+                        output_list.append(server_properties(server, subgroup, group_name, subgroup_name))
+                                
+    for property in output_list:
+        print(property)
+        
 if __name__ == "__main__":
     main()
