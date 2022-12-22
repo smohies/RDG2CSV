@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import xmltodict
 import json
 import os
+import csv
 
 def validate_file(filename, folder):
     while True:
@@ -71,12 +72,18 @@ def standarize_properties(property_list):
         std_property_list.append(std_property)
     return std_property_list
 
+def export_csv(filepath, headers, dicitonary_list):
+    with open(filepath, "w") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=headers, delimiter=',', quotechar='"', lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+        writer.writeheader()
+        writer.writerows(dicitonary_list)
+
 def main():
     
     folder_in = "./input/"
     folder_out = "./output/"
     rdg_filepath_in = validate_file("servers.rdg", folder_in)
-    csv_filepath_out = build_filepath("servers.ahk", folder_out)
+    csv_filepath_out = build_filepath("servers.csv", folder_out)
     json_filepath_out = build_filepath("servers.json", folder_out)
     
     mkdir_output(folder_out)
@@ -88,6 +95,7 @@ def main():
     export_json(rdg_json, json_filepath_out)
     
     rdg_group_list = rdg_dict['RDCMan']['file']['group']
+    output_header = ["displayName", "name", "group", "subgroup", "userName", "domain"]
     output_list = []
     
     # This loop will only traverse for a single sub-level (sub-group)
@@ -104,9 +112,7 @@ def main():
                         output_list.append(pull_server_properties(server, subgroup, group_name, subgroup_name))
                                 
     output_list = standarize_properties(output_list)
-    
-    for property in output_list:
-        print(property)
+    export_csv(csv_filepath_out, output_header, output_list)
         
 if __name__ == "__main__":
     main()
