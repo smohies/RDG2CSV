@@ -39,7 +39,7 @@ def export_json(json, filepath):
     with open(filepath, "w") as json_file:
         json_file.write(json)
         
-def server_properties(server, group, group_name, subgroup_name=""):
+def pull_server_properties(server, group, group_name, subgroup_name=""):
     properties = {}
     logon = {"userName": "", "domain": ""}
     try:
@@ -61,6 +61,16 @@ def server_properties(server, group, group_name, subgroup_name=""):
     properties["domain"] = logon["domain"]
     return properties
 
+def standarize_properties(property_list):
+    std_property_list = []
+    for property in property_list:
+        std_property = {"displayName":"", "name":"", "group":"", "subgroup":"", "userName":"", "domain":""}
+        for key in std_property.keys():      
+            if key in property.keys():
+                std_property[key] = property[key]
+        std_property_list.append(std_property)
+    return std_property_list
+
 def main():
     
     folder_in = "./input/"
@@ -80,19 +90,21 @@ def main():
     rdg_group_list = rdg_dict['RDCMan']['file']['group']
     output_list = []
     
-    # This loop will only traverse for a single sub-group
+    # This loop will only traverse for a single sub-level (sub-group)
     for group in rdg_group_list:
         group_name = group["properties"]["name"]
         if "server" in group.keys():
             for server in group["server"]:
-                output_list.append(server_properties(server, group, group_name))
+                output_list.append(pull_server_properties(server, group, group_name))
         if "group" in group.keys():
             for subgroup in group["group"]:
                 subgroup_name = subgroup["properties"]["name"]
                 if "server" in subgroup.keys():
                     for server in subgroup["server"]:
-                        output_list.append(server_properties(server, subgroup, group_name, subgroup_name))
+                        output_list.append(pull_server_properties(server, subgroup, group_name, subgroup_name))
                                 
+    output_list = standarize_properties(output_list)
+    
     for property in output_list:
         print(property)
         
