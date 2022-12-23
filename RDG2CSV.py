@@ -97,7 +97,8 @@ def export_ahk(filepath, dictionary_list):
         ahk.append(f'::$n{validate_non_empty(entry, "name")}::{validate_non_empty(entry, "displayName")}')
         ahk.append(f'::$u{validate_non_empty(entry, "name")}::{entry["userName"]}')
         ahk.append(f'::$u@{validate_non_empty(entry, "name")}::{entry["userName"]}@{validate_non_empty(entry, "name")}')
-        ahk.append(f'::${validate_non_empty(entry, "displayName")}::{validate_non_empty(entry, "name")}')
+        ahk.append(f'::${validate_non_empty(entry, "displayName")}::{validate_non_empty(entry, "displayName")} / {entry["group"]} {entry["subgroup"]} @ {validate_non_empty(entry, "name")}')
+        ahk.append(f'::$ip{validate_non_empty(entry, "displayName")}::{validate_non_empty(entry, "name")}')
     with open(filepath, "w") as ahk_file:
         for element in ahk:
             ahk_file.write(f"{element}\n")

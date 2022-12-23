@@ -1,4 +1,4 @@
-# RDG2CSV v1.01
+# RDG2CSV v1.02
 *.rdg to .json / .rdg to .csv / .rdg to .ahk*
 
 ## About:
@@ -7,42 +7,35 @@ Don't let the name fool you, this script will export your .RDG file into 3 files
 
 First it will export a .JSON file which makes it easier for the script to process. Then it will push out a .CSV file that makes the .RDG file human readable, perfect if you need to make inventory of your servers in a Excel file. After that, it will create a AHK hotstrings script, this is the true purpose of this script!
 
-With the AHK hotstrings script you will be able to to type any IP and get required data out of that IP. It can currently export 5 types of different data:
+With the AHK hotstrings script you will be able to to type any IP and get required data out of that IP. It currently supports 6 functions:
 
-### 1. Server Name, Group, SubGroup and IP: ( $ )
-Input:
-> $192.168.0.80
- 
-Output:
-> ServerName / ServerGroup ServerSubGroup @192.168.0.80
+---
 
-### 2. Server Name: ( $n )
-Input:
-> $n192.168.0.80
- 
-Output:
-> ServerName
+### 1. ${IP} => Server Name / Group Subgroup @ IP
+> $192.168.0.80 =>
+> AlphaServer / BravoGroup CharlieSubGroup @ 192.168.0.80
 
-### 3. Server UserName: ( $u )
-Input:
-> $u192.168.0.80
+### 2. $n{IP} => Server Name
+> $n192.168.0.80 =>
+> AlphaServer
 
-Output:
+### 3. $u{IP} => Server Username
+> $u192.168.0.80 =>
 > ServerAdmin
 
-### 4. Server UserName and IP: ( $u@ )
-input:
-> $u@192.168.0.80
-
-output:
+### 4. $u@{IP} => Server UserName @ IP
+> $u@192.168.0.80 =>
 > ServerAdmin@192.168.0.80
 
-### 5. Server IP: ( $ )
-input:
-> $ServerName
+### 5. ${SERVERNAME} => Server Name / Group Subgroup @ IP
+> $AlphaServer =>
+> AlphaServer / BravoGroup CharlieSubGroup @ 192.168.0.80
 
-output:
+### 6. $ip{SERVERNAME} => Server IP
+> $ipAlphaServer =>
 > 192.168.0.80
+
+---
 
 Of course, in order for this script to work as intended, your servers in RCMan should contain all of the information as complete as possible.
 
