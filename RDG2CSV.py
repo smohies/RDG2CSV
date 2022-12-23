@@ -81,17 +81,23 @@ def export_csv(filepath, headers, dicitonary_list):
         writer.writeheader()
         writer.writerows(dicitonary_list)
         
+def validate_non_empty(entry, key):
+    if entry[key] == "":
+        return "None"
+    else:
+        return entry[key]
+        
 def export_ahk(filepath, dictionary_list):
     print(f"Exporting {filepath}")
     ahk = [
         "#NoEnv", "; #Warn", "SendMode Input", "SetWorkingDir %A_ScriptDir%", ""
     ]
     for entry in dictionary_list:
-        ahk.append(f'::${entry["name"]}::{entry["displayName"]} / {entry["group"]} {entry["subgroup"]} @ {entry["name"]}')
-        ahk.append(f'::$n{entry["name"]}::{entry["displayName"]}')
-        ahk.append(f'::$u{entry["name"]}::{entry["userName"]}')
-        ahk.append(f'::$u@{entry["name"]}::{entry["userName"]}@{entry["name"]}')
-        ahk.append(f'::${entry["displayName"]}::{entry["name"]}')
+        ahk.append(f'::${validate_non_empty(entry, "name")}::{validate_non_empty(entry, "displayName")} / {entry["group"]} {entry["subgroup"]} @ {validate_non_empty(entry, "name")}')
+        ahk.append(f'::$n{validate_non_empty(entry, "name")}::{validate_non_empty(entry, "displayName")}')
+        ahk.append(f'::$u{validate_non_empty(entry, "name")}::{entry["userName"]}')
+        ahk.append(f'::$u@{validate_non_empty(entry, "name")}::{entry["userName"]}@{validate_non_empty(entry, "name")}')
+        ahk.append(f'::${validate_non_empty(entry, "displayName")}::{validate_non_empty(entry, "name")}')
     with open(filepath, "w") as ahk_file:
         for element in ahk:
             ahk_file.write(f"{element}\n")

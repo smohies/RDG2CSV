@@ -1,4 +1,4 @@
-# RDG2CSV v1.00
+# RDG2CSV v1.01
 *.rdg to .json / .rdg to .csv / .rdg to .ahk*
 
 ## About:
@@ -9,35 +9,35 @@ First it will export a .JSON file which makes it easier for the script to proces
 
 With the AHK hotstrings script you will be able to to type any IP and get required data out of that IP. It can currently export 5 types of different data:
 
-### 1. Server Name, Group, SubGroup and IP:
+### 1. Server Name, Group, SubGroup and IP: ( $ )
 Input:
 > $192.168.0.80
  
 Output:
 > ServerName / ServerGroup ServerSubGroup @192.168.0.80
 
-### 2. Server Name:
+### 2. Server Name: ( $n )
 Input:
 > $n192.168.0.80
  
 Output:
 > ServerName
 
-### 3. Server UserName:
+### 3. Server UserName: ( $u )
 Input:
 > $u192.168.0.80
 
 Output:
 > ServerAdmin
 
-### 4. Server UserName and IP:
+### 4. Server UserName and IP: ( $u@ )
 input:
 > $u@192.168.0.80
 
 output:
 > ServerAdmin@192.168.0.80
 
-### 5. IP:
+### 5. Server IP: ( $ )
 input:
 > $ServerName
 
