@@ -88,6 +88,8 @@ def export_ahk(filepath, dictionary_list):
     ]
     for entry in dictionary_list:
         ahk.append(f'::${entry["name"]}::{entry["displayName"]} / {entry["group"]} {entry["subgroup"]} @ {entry["name"]}')
+        ahk.append(f'::$u{entry["name"]}::{entry["userName"]}')
+        ahk.append(f'::$u@{entry["name"]}::{entry["userName"]}@{entry["name"]}')
     with open(filepath, "w") as ahk_file:
         for element in ahk:
             ahk_file.write(f"{element}\n")
