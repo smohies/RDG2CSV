@@ -63,8 +63,8 @@ def pull_server_properties(server, group, group_name, subgroup_name=""):
     properties["domain"] = logon["domain"]
     return properties
 
-def standarize_properties(property_list):
-    print(f"Standarizing data")
+def standardize_properties(property_list):
+    print(f"Standardizing data")
     std_property_list = []
     for property in property_list:
         std_property = {"displayName":"", "name":"", "group":"", "subgroup":"", "userName":"", "domain":""}
@@ -88,8 +88,10 @@ def export_ahk(filepath, dictionary_list):
     ]
     for entry in dictionary_list:
         ahk.append(f'::${entry["name"]}::{entry["displayName"]} / {entry["group"]} {entry["subgroup"]} @ {entry["name"]}')
+        ahk.append(f'::$n{entry["name"]}::{entry["displayName"]}')
         ahk.append(f'::$u{entry["name"]}::{entry["userName"]}')
         ahk.append(f'::$u@{entry["name"]}::{entry["userName"]}@{entry["name"]}')
+        ahk.append(f'::${entry["displayName"]}::{entry["name"]}')
     with open(filepath, "w") as ahk_file:
         for element in ahk:
             ahk_file.write(f"{element}\n")
@@ -130,7 +132,7 @@ def main():
                     for server in subgroup["server"]:
                         output_list.append(pull_server_properties(server, subgroup, group_name, subgroup_name))
                                 
-    output_list = standarize_properties(output_list)
+    output_list = standardize_properties(output_list)
     export_csv(csv_filepath_out, output_header, output_list)
     export_ahk(ahk_filepath_out, output_list)
     print(f"Finished")

@@ -1,1 +1,1 @@
-Drop your RDG file in this folder.
+Drop your RDG (servers.rdg) file in this folder.
