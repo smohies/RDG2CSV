@@ -1,4 +1,4 @@
-# RDG2CSV v1.02
+# RDG2CSV v1.03
 *.rdg to .json / .rdg to .csv / .rdg to .ahk*
 
 ## About:
@@ -10,29 +10,30 @@ First it will export a .JSON file which makes it easier for the script to proces
 With the AHK hotstrings script you will be able to to type any IP and get required data out of that IP. It currently supports 6 functions:
 
 ---
+## AutoHotKey HotStrings
 
-### 1. ${IP} => Server Name / Group Subgroup @ IP
-> $192.168.0.80 =>
+### 1. ${IP}! => Server Name / Group Subgroup @ IP
+> $192.168.0.80! =>
 > AlphaServer / BravoGroup CharlieSubGroup @ 192.168.0.80
 
-### 2. $n{IP} => Server Name
-> $n192.168.0.80 =>
+### 2. $n{IP}! => Server Name
+> $n192.168.0.80! =>
 > AlphaServer
 
-### 3. $u{IP} => Server Username
-> $u192.168.0.80 =>
+### 3. $u{IP}! => Server Username
+> $u192.168.0.80! =>
 > ServerAdmin
 
-### 4. $u@{IP} => Server UserName @ IP
-> $u@192.168.0.80 =>
+### 4. $u@{IP}! => Server UserName @ IP
+> $u@192.168.0.80! =>
 > ServerAdmin@192.168.0.80
 
-### 5. ${SERVERNAME} => Server Name / Group Subgroup @ IP
-> $AlphaServer =>
+### 5. ${SERVERNAME}! => Server Name / Group Subgroup @ IP
+> $AlphaServer! =>
 > AlphaServer / BravoGroup CharlieSubGroup @ 192.168.0.80
 
-### 6. $ip{SERVERNAME} => Server IP
-> $ipAlphaServer =>
+### 6. $ip{SERVERNAME}! => Server IP
+> $ipAlphaServer! =>
 > 192.168.0.80
 
 ---
